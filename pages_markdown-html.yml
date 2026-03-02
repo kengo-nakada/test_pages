@@ -15,18 +15,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          pip install sphinx myst-parser sphinx-rtd-theme
+      - name: Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
 
-      - name: Build Sphinx
+      - name: Convert markdown to html
         run: |
-          sphinx-build -b html docs docs/_build/html
+          mkdir build
+          pandoc index.md -o build/index.html
 
       - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/_build/html
+          path: build
 
       - name: Deploy
         uses: actions/deploy-pages@v4
